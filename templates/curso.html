@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   
     <title>{{ curso.titulo }} - Zimy Academy</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -20,6 +22,8 @@
             </div>
         </div>
     </section>
+
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Zimy Academy" class="logo">
 
     <div class="curso-header">
         <h1>{{ curso.titulo }}</h1>
@@ -100,7 +104,7 @@
                 <a href="{{ url_for('curso', id=recomendado.id) }}">
                     <img src="{{ url_for('static', filename=recomendado.imagen) }}" alt="{{ recomendado.titulo }}" />
                     <h3>{{ recomendado.titulo }}</h3>
-                    <div class="estrellas">⭐ {{ recomendado.estrellas }}</div>
+                    <div class="estrellas">⭐ {{ recomendado.estrellas }} / 5</div>
                     <div class="precio">${{ recomendado.precio }}</div>
                 </a>
             </div>
@@ -190,7 +194,7 @@
 
     <script>
         function mostrarMensaje(nombreCurso) {
-            window.open("https://buy.stripe.com/dRm6oGbdxfcW4VlaWC1ZS02", "_blank");
+            window.open("https://buy.stripe.com/4gMfZg4P9fcWafF1m21ZS03", "_blank");
 
             const mensaje = `¡Gracias por tu compra! Se enviará todo el material del curso "<strong>${nombreCurso}</strong>" y la documentación correspondiente a tu correo electrónico.`;
             document.getElementById("textoMensajePago").innerHTML = mensaje;
