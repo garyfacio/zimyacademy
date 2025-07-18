@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  
+    <meta charset="UTF-8">
+    
+    <title>Zimy Academy - Catálogo de Cursos</title>
+    
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        .header {
+            background-color: #4b4be0;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .promo {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 30px 20px;
+            margin: 20px auto;
+            max-width: 900px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .promo h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .promo p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .curso {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s ease;
+        }
+
+        .curso:hover {
+            transform: translateY(-4px);
+        }
+
+        .curso img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .curso-content {
+            padding: 20px;
+        }
+
+        .curso h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .curso p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .estrellas {
+            color: #ffaa00;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .precio {
+            font-weight: bold;
+            color: #4b4be0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+    
+    <div class="header-texto">
+        <h1 class="titulo-principal">Zimy Academy</h1>
+        <p class="subtitulo">Descubre el poder de aprender en línea</p>
+    </div>
+    
+</div>
+    
+
+    <div class="promo">
+        <h2>¿Por qué estudiar ONLINE?</h2>
+<p class="texto-justificado">
+    En Zimy Academy creemos que la educación debe ser accesible, flexible y diseñada para ti. Por eso, te ofrecemos 
+    <strong>clases en video disponibles 24/7</strong>, para que aprendas cuando tú quieras y a tu propio ritmo, desde cualquier lugar. 
+    Nuestro enfoque combina la <strong>comodidad del estudio online</strong> con el respaldo de <strong>docentes calificados</strong> 
+    que te brindarán orientación personalizada en cada etapa del aprendizaje.
+</p>
+<p class="texto-justificado">
+    Ya sea que busques mejorar tu perfil profesional, aprender nuevas herramientas o dar un giro a tu carrera, 
+    nuestros cursos están diseñados para ayudarte a lograrlo. Invierte en tu futuro con contenidos actualizados, 
+    prácticos y enfocados en el mundo real. <strong>Zimy Academy es más que una plataforma: es tu mejor aliado para crecer.</strong>
+</p>
+
+
+    </div>
+
+    <section class="beneficios">
+        <h2>¿Por qué elegir Zimy Academy?</h2>
+        <div class="beneficios-container">
+          <div class="beneficio-item">
+            <div class="icono">🎥</div>
+            <h3>Acceso 24/7 a videos</h3>
+            <p>Estudia a tu propio ritmo con clases disponibles siempre que lo necesites.</p>
+          </div>
+          <div class="beneficio-item">
+            <div class="icono">👨‍🏫</div>
+            <h3>Asistencia personalizada</h3>
+            <p>Docentes calificados listos para apoyarte en tu aprendizaje.</p>
+          </div>
+          <div class="beneficio-item">
+            <div class="icono">📜</div>
+            <h3>Certificación oficial</h3>
+            <p>Obtén un certificado que respalde tus nuevos conocimientos.</p>
+          </div>
+          <div class="beneficio-item">
+            <div class="icono">💼</div>
+            <h3>Preparación laboral</h3>
+            <p>Aprende habilidades prácticas para avanzar en tu carrera profesional.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="seccion-catalogo">
+        <h2 class="titulo-catalogo">Explora nuestros cursos destacados</h2>
+        <p class="subtitulo-catalogo">
+          Encuentra la formación perfecta para ti. Aprende a tu ritmo, desde cualquier lugar, con docentes expertos y certificados laborales.
+        </p>
+      </section>
+
+      
+      
+      
+    <div class="catalogo">
+        
+        {% for curso in cursos %}
+        <a href="{{ url_for('curso', id=curso.id) }}" class="curso">
+            <img src="{{ url_for('static', filename=curso.imagen) }}" alt="{{ curso.titulo }}">
+            <div class="curso-content">
+                <h3>{{ curso.titulo }}</h3>
+                <p>{{ curso.descripcion }}</p>
+                <div class="estrellas">⭐ {{ curso.estrellas }} / 5</div>
+                <div class="precio">USD ${{ curso.precio }}</div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <section class="certificados">
+        <div class="contenido-certificado">
+          <img src="{{ url_for('static', filename='certificado.jpg') }}" alt="Certificado Zimy Academy" />
+          <div class="texto-certificado">
+            <h2>Certifícate con Zimy Academy</h2>
+            <p>
+              Todos nuestros cursos incluyen un certificado oficial que respalda tus conocimientos. 
+              Ideal para potenciar tu currículum y avanzar profesionalmente.
+            </p>
+            <p class="destacado">¡Aprende hoy y demuestra lo que sabes!</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq">
+        <h2>Preguntas frecuentes</h2>
+        <div class="faq-container">
+      
+          <div class="faq-item">
+            <h3>¿Los cursos tienen acceso ilimitado?</h3>
+            <p>Sí, una vez te inscribes, tienes acceso de por vida a todos los contenidos del curso.</p>
+          </div>
+      
+          <div class="faq-item">
+            <h3>¿Qué métodos de pago aceptan?</h3>
+            <p>Aceptamos pagos con tarjetas de crédito, débito e incluso transferencias internacionales.</p>
+          </div>
+      
+          <div class="faq-item">
+            <h3>¿Recibiré un certificado?</h3>
+            <p>Sí, todos nuestros cursos incluyen un certificado oficial de Zimy Academy al completar el contenido.</p>
+          </div>
+      
+          <div class="faq-item">
+            <h3>¿Puedo estudiar desde el celular?</h3>
+            <p>Por supuesto, nuestra plataforma está optimizada para dispositivos móviles, tablets y computadoras.</p>
+          </div>
+      
+          <div class="faq-item">
+            <h3>¿Los cursos incluyen soporte del instructor?</h3>
+            <p>Sí, puedes enviar tus preguntas y recibirás asistencia personalizada del docente.</p>
+          </div>
+      
+        </div>
+      </section>
+      
+
+    <section class="blog">
+        <h2>Últimas Noticias y Consejos</h2>
+        <div class="entradas">
+          <article class="entrada">
+            <h3>5 consejos para estudiar mejor en línea</h3>
+            <p>Descubre cómo organizar tu tiempo y aprovechar al máximo tus cursos en línea.</p>
+            <a href="#">Leer más</a>
+          </article>
+          <article class="entrada">
+            <h3>Las últimas tendencias en tecnología educativa 2025</h3>
+            <p>Conoce las herramientas que están revolucionando el aprendizaje digital.</p>
+            <a href="#">Leer más</a>
+          </article>
+          <article class="entrada">
+            <h3>Cómo aprovechar la asistencia personalizada en Zimy Academy</h3>
+            <p>Tips para sacar el máximo provecho de nuestros docentes expertos.</p>
+            <a href="#">Leer más</a>
+          </article>
+        </div>
+      </section>
+
+      
+      
+      <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Zimy Academy</h3>
+                <p>Aprende desde casa con los mejores cursos en línea.</p>
+                <p><strong>Contacto:</strong> info@zimyacademy.com | +591 79662811</p>
+            </div>
+            <div class="footer-redes">
+                <h4>Síguenos</h4>
+                <a href="#" aria-label="Facebook" class="red-social fb">Facebook</a>
+                <a href="#" aria-label="Instagram" class="red-social ig">Instagram</a>
+                <a href="#" aria-label="LinkedIn" class="red-social li">LinkedIn</a>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+            </div>
+        </div>
+        
+    </footer>
+
+    
+      
+    <!-- Botón flotante -->
+<button id="btnSobreNosotros" class="boton-flotante">Sobre Nosotros</button>
+
+<!-- Panel lateral -->
+<div id="panelSobreNosotros" class="panel-lateral">
+  <div class="contenido-panel">
+    <span class="cerrar" id="cerrarPanel">&times;</span>
+    <h2>Información Zimy Academy</h2>
+    
+    <div class="acordeon">
+      <button class="acordeon-btn">Misión</button>
+      <div class="acordeon-contenido">
+        <p>Empoderar a los estudiantes con herramientas digitales accesibles, prácticas y guiadas por docentes calificados.</p>
+      </div>
+
+      <button class="acordeon-btn">Visión</button>
+      <div class="acordeon-contenido">
+        <p>Ser líderes en formación online en Latinoamérica, brindando experiencias educativas transformadoras.</p>
+      </div>
+
+      <button class="acordeon-btn">Valores</button>
+      <div class="acordeon-contenido">
+        <ul>
+          <li>Innovación y tecnología educativa</li>
+          <li>Compromiso con el estudiante</li>
+          <li>Excelencia docente</li>
+          <li>Flexibilidad y accesibilidad</li>
+        </ul>
+      </div>
+
+      <button class="acordeon-btn">Nuestra Historia</button>
+      <div class="acordeon-contenido">
+        <p>Zimy Academy nació en 2025 con la idea de revolucionar el aprendizaje digital. Desde entonces, miles de estudiantes han confiado en nuestra plataforma para desarrollar habilidades prácticas, mejorar su perfil profesional y transformar sus vidas.</p>
+      </div>
+
+      <button class="acordeon-btn">Sobre Nosotros</button>
+      <div class="acordeon-contenido">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Zimy Academy" style="height: 160px;" align-items: center;>
+        <p>Creemos que todos merecen una oportunidad real de aprender. Por eso ofrecemos cursos con calidad, soporte humano y contenido actualizado, sin complicaciones.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    const btnAbrir = document.getElementById("btnSobreNosotros");
+    const panel = document.getElementById("panelSobreNosotros");
+    const btnCerrar = document.getElementById("cerrarPanel");
+    const acordeones = document.querySelectorAll(".acordeon-btn");
+  
+    // Abrir/cerrar panel
+    btnAbrir.addEventListener("click", () => {
+      panel.classList.toggle("abierto");
+    });
+  
+    btnCerrar.addEventListener("click", () => {
+      panel.classList.remove("abierto");
+    });
+  
+    // Funcionalidad acordeón
+    acordeones.forEach(btn => {
+      btn.addEventListener("click", () => {
+        // Toggle active class
+        btn.classList.toggle("active");
+        // Mostrar/ocultar contenido asociado
+        const contenido = btn.nextElementSibling;
+        if (contenido.style.maxHeight) {
+          contenido.style.maxHeight = null;
+        } else {
+          contenido.style.maxHeight = contenido.scrollHeight + "px";
+        }
+      });
+    });
+  </script>
+  
+  
+  
+</body>
+</html>

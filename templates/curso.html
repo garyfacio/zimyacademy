@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ curso.titulo }} - Zimy Academy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <section class="certificados">
+        <div class="contenido-certificado">
+            <img src="{{ url_for('static', filename='certificado.jpg') }}" alt="Certificado Zimy Academy" />
+            <div class="texto-certificado">
+                <h2>Certifícate con Zimy Academy</h2>
+                <p>
+                    Todos nuestros cursos incluyen un certificado oficial que respalda tus conocimientos.
+                    Ideal para potenciar tu currículum y avanzar profesionalmente.
+                </p>
+                <p class="destacado">¡Aprende hoy y demuestra lo que sabes!</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="curso-header">
+        <h1>{{ curso.titulo }}</h1>
+        <p class="subtitulo">{{ curso.descripcion }}</p>
+        <div class="info-destacada">
+            <span>⭐ {{ curso.estrellas }}</span>
+            <span>{{ curso.estudiantes }} estudiantes</span>
+            <span>Actualizado: {{ curso.ultima_actualizacion }}</span>
+            <span>{{ curso.idioma }}</span>
+        </div>
+
+        <div class="tarjeta-pago-flotante">
+            <h4>Este curso incluye:</h4>
+            <ul>
+                <li>Acceso de por vida</li>
+                <li>Certificado de finalización</li>
+                <li>Duración: {{ curso.duracion }}</li>
+                <li><strong>Precio:</strong> ${{ curso.precio }}</li>
+                <li>Garantía de reembolso de 30 días</li>
+            </ul>
+            <button onclick="mostrarMensaje('{{ curso.titulo }}')" class="btn-pagar">Pagar curso</button>
+        </div>
+
+        <!-- Modal de mensaje -->
+        <div id="mensajePago" class="modal">
+            <div class="modal-contenido">
+                <p id="textoMensajePago"></p>
+                <button onclick="cerrarMensaje()">OK</button>
+            </div>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="btn-volver">← Volver al catálogo</a>
+    </div>
+
+    <div class="curso-contenido">
+        <img src="{{ url_for('static', filename=curso.imagen) }}" alt="{{ curso.titulo }}" />
+
+        <div class="detalle">
+            <h2>Lo que aprenderás</h2>
+            <ul>
+                {% for punto in curso.lo_que_aprenderas %}
+                <li>✔️ {{ punto }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Requisitos</h2>
+            <ul>
+                {% for req in curso.requisitos %}
+                <li>📌 {{ req }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Contenido del curso</h2>
+            <p>
+                <strong>{{ curso.contenido_curso.secciones }} secciones - {{ curso.contenido_curso.clases }} clases - {{ curso.contenido_curso.duracion_total }}</strong>
+            </p>
+            <ul>
+                {% for tema in curso.contenido_curso.detalle %}
+                <li>📘 {{ tema }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Información adicional</h2>
+            <p><strong>Duración:</strong> {{ curso.duracion }}</p>
+            <p><strong>Precio:</strong> <span class="precio-curso">${{ curso.precio }} USD</span></p>
+            <p><strong>Acceso:</strong> {{ curso.acceso }}</p>
+            <p><strong>Beneficios:</strong> {{ curso.beneficios }}</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <h2 style="margin-top: 60px; text-align: center;">🎓 También te puede interesar</h2>
+    <div class="recomendados">
+        {% for recomendado in cursos if recomendado.id != curso.id %}
+            {% if loop.index <= 4 %}
+            <div class="card">
+                <a href="{{ url_for('curso', id=recomendado.id) }}">
+                    <img src="{{ url_for('static', filename=recomendado.imagen) }}" alt="{{ recomendado.titulo }}" />
+                    <h3>{{ recomendado.titulo }}</h3>
+                    <div class="estrellas">⭐ {{ recomendado.estrellas }}</div>
+                    <div class="precio">${{ recomendado.precio }}</div>
+                </a>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <section class="beneficios">
+        <h2>¿Por qué elegir Zimy Academy?</h2>
+        <div class="beneficios-container">
+            <div class="beneficio-item">
+                <div class="icono">🎥</div>
+                <h3>Acceso 24/7 a videos</h3>
+                <p>Estudia a tu propio ritmo con clases disponibles siempre que lo necesites.</p>
+            </div>
+            <div class="beneficio-item">
+                <div class="icono">👨‍🏫</div>
+                <h3>Asistencia personalizada</h3>
+                <p>Docentes calificados listos para apoyarte en tu aprendizaje.</p>
+            </div>
+            <div class="beneficio-item">
+                <div class="icono">📜</div>
+                <h3>Certificación oficial</h3>
+                <p>Obtén un certificado que respalde tus nuevos conocimientos.</p>
+            </div>
+            <div class="beneficio-item">
+                <div class="icono">💼</div>
+                <h3>Preparación laboral</h3>
+                <p>Aprende habilidades prácticas para avanzar en tu carrera profesional.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq">
+        <h2>Preguntas frecuentes</h2>
+        <div class="faq-container">
+
+            <div class="faq-item">
+                <h3>¿Los cursos tienen acceso ilimitado?</h3>
+                <p>Sí, una vez te inscribes, tienes acceso de por vida a todos los contenidos del curso.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>¿Qué métodos de pago aceptan?</h3>
+                <p>Aceptamos pagos con tarjetas de crédito, débito e incluso transferencias internacionales.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>¿Recibiré un certificado?</h3>
+                <p>Sí, todos nuestros cursos incluyen un certificado oficial de Zimy Academy al completar el contenido.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>¿Puedo estudiar desde el celular?</h3>
+                <p>Por supuesto, nuestra plataforma está optimizada para dispositivos móviles, tablets y computadoras.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>¿Los cursos incluyen soporte del instructor?</h3>
+                <p>Sí, puedes enviar tus preguntas y recibirás asistencia personalizada del docente.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Zimy Academy</h3>
+                <p>Aprende desde casa con los mejores cursos en línea.</p>
+                <p><strong>Contacto:</strong> info@zimyacademy.com | +591 79662811</p>
+            </div>
+            <div class="footer-redes">
+                <h4>Síguenos</h4>
+                <a href="#" aria-label="Facebook" class="red-social fb">Facebook</a>
+                <a href="#" aria-label="Instagram" class="red-social ig">Instagram</a>
+                <a href="#" aria-label="LinkedIn" class="red-social li">LinkedIn</a>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function mostrarMensaje(nombreCurso) {
+            window.open("https://buy.stripe.com/dRm6oGbdxfcW4VlaWC1ZS02", "_blank");
+
+            const mensaje = `¡Gracias por tu compra! Se enviará todo el material del curso "<strong>${nombreCurso}</strong>" y la documentación correspondiente a tu correo electrónico.`;
+            document.getElementById("textoMensajePago").innerHTML = mensaje;
+            document.getElementById("mensajePago").style.display = "flex";
+        }
+
+        function cerrarMensaje() {
+            document.getElementById("mensajePago").style.display = "none";
+        }
+    </script>
+</body>
+</html>
